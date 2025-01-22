@@ -401,4 +401,4 @@ FodyWeavers.xsd
 
 /src/config.cpp
 /.vscode
-/.pio/build
+/.pio
