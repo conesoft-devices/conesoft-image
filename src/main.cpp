@@ -22,14 +22,9 @@ void setup()
 void loop()
 {
 
-  csft_web_request(webRequest, "Conesoft-Web-Image", WiFi.macAddress(), [](HTTPClient &http) -> void
+  csft_web_request(webRequest, "Conesoft-Web-Image", [](HTTPClient &http) -> void
   {
-    WiFiClient wificlient = http.getStream();
-    size_t length = http.getSize();
-    for (size_t index = 0; index < length; index += 0)
-    {
-      index += wificlient.readBytes(imageBits + index, imageSize - index);
-    }
+    csft_binary_read_response_to(http, imageBits, imageSize);
   });
 
   DEV_Module_Init();
