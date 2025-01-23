@@ -20,7 +20,9 @@ void setup() {
   Serial.println("booting up conesoft-web-image");
   pinMode(LED_BUILTIN, OUTPUT);
   LittleFS.begin();
+  WiFi.setPhyMode(WIFI_PHY_MODE_11G);
   WiFi.forceSleepBegin();
+  WiFi.setPhyMode(WIFI_PHY_MODE_11G);
 
   WiFiSettings.hostname = "csft-img-";
   String host = WiFiSettings.string("host", "", "Conesoft Web Devices Server");
