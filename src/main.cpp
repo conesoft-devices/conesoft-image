@@ -17,15 +17,25 @@ void setup()
 
 void loop()
 {
-  csft_web_request(webRequest, "Conesoft-Web-Image", [](HTTPClient &http) -> void
-                   { csft_binary_read_response_to(http, imageBits, imageSize); });
+  if (csft_web_request(webRequest, "Conesoft-Web-Image", [](HTTPClient &http) -> bool
+                       { return csft_binary_read_response_to(http, imageBits, imageSize); }))
+  {
+    Serial.print("updating image");
 
-  DEV_Module_Init();
-  EPD_1IN54_V2_Init();
-  EPD_1IN54_V2_Display(imageBits);
-  EPD_1IN54_V2_Sleep();
+    csft_switch_baudrate(115200);
+    DEV_Module_Init();
+    EPD_1IN54_V2_Init();
+    EPD_1IN54_V2_Display(imageBits);
+    EPD_1IN54_V2_Sleep();
+    csft_switch_baudrate(74880);
+
+    Serial.println(" OK");
+  }
 
   csft_loop_for(60 * 1000);
 
+  Serial.println("restarting...");
+  Serial.println();
+  Serial.println();
   ESP.restart();
 }
